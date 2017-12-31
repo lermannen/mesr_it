@@ -3,7 +3,7 @@ defmodule FeedStoreTest do
   doctest FeedStore
 
   setup do
-    FeedStore.start_link
+    FeedStore.start_link()
     :ok
   end
 

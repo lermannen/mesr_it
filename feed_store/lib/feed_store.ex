@@ -21,7 +21,9 @@ defmodule FeedStore do
           true -> f
           false -> refresh_cache(url)
         end
-      nil -> refresh_cache(url)
+
+      nil ->
+        refresh_cache(url)
     end
 
     Agent.get(__MODULE__, fn map -> map[url] end)
@@ -37,8 +39,8 @@ defmodule FeedStore do
   end
 
   def status(url, clock) do
-    %{feed: _f, cached_at: ca,
-       time_to_live: ttl} = Agent.get(__MODULE__, fn map -> map[url] end)
+    %{feed: _f, cached_at: ca, time_to_live: ttl} = Agent.get(__MODULE__, fn map -> map[url] end)
+
     case cache_fresh?(ca, ttl, clock) do
       true -> :fresh
       false -> :stale
@@ -46,15 +48,14 @@ defmodule FeedStore do
   end
 
   defp save(url, %{feed: content, cached_at: ca, time_to_live: ttl}) do
-    Agent.update(__MODULE__,
-      fn map -> Map.put(map, url, %{feed: content, cached_at: ca,
-                                   time_to_live: ttl}) end)
-  end
-  defp save(url, content) when is_binary(content) do
-    save(url, %{feed: content, time_to_live: @time_to_live,
-                cached_at: sys_time()})
+    Agent.update(__MODULE__, fn map ->
+      Map.put(map, url, %{feed: content, cached_at: ca, time_to_live: ttl})
+    end)
   end
 
+  defp save(url, content) when is_binary(content) do
+    save(url, %{feed: content, time_to_live: @time_to_live, cached_at: sys_time()})
+  end
 
   defp sys_time() do
     System.system_time(:milli_seconds)
@@ -66,14 +67,17 @@ defmodule FeedStore do
   end
 
   defp refresh_cache(url) do
-    IO.puts "External call to #{url}"
+    IO.puts("External call to #{url}")
+
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         save(url, body)
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
+        IO.puts("Not found :(")
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason, label: :refresh_error
+        IO.inspect(reason, label: :refresh_error)
     end
   end
 end
