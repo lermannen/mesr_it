@@ -18,7 +18,7 @@ defmodule MesrItWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
-    resources "/feeds", FeedController, only: [ :show ]
+    resources("/feeds", FeedController, only: [:show])
   end
 
   # Other scopes may use custom stacks.
