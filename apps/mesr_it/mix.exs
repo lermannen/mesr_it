@@ -4,7 +4,7 @@ defmodule MesrIt.Mixfile do
   def project do
     [
       app: :mesr_it,
-      version: append_revision("0.0.1"),
+      version: append_revision("0.0.2"),
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
