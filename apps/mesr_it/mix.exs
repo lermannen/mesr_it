@@ -4,7 +4,7 @@ defmodule MesrIt.Mixfile do
   def project do
     [
       app: :mesr_it,
-      version: "0.0.1",
+      version: append_revision("0.0.1"),
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -19,7 +19,7 @@ defmodule MesrIt.Mixfile do
   def application do
     [
       mod: {MesrIt.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :edeliver]
     ]
   end
 
@@ -37,7 +37,18 @@ defmodule MesrIt.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:feed_store, in_umbrella: true}
     ]
+  end
+
+  defp append_revision(version) do
+    "#{version}+#{revision()}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.trim_trailing()
   end
 end

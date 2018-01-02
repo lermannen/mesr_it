@@ -4,7 +4,7 @@ defmodule FeedStore.MixProject do
   def project do
     [
       app: :feed_store,
-      version: "0.1.0",
+      version: append_revision("0.1.0"),
       elixir: "~> 1.6-rc",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -24,5 +24,15 @@ defmodule FeedStore.MixProject do
     [
       {:httpoison, "~> 0.13"}
     ]
+  end
+
+  defp append_revision(version) do
+    "#{version}+#{revision()}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.trim_trailing()
   end
 end

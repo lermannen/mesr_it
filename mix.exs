@@ -15,6 +15,10 @@ defmodule MesrIt.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [{:credo, "~> 0.8", only: [:dev, :test], runtime: false}]
+    [
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:edeliver, "~> 1.4.2"},
+      {:distillery, "~> 1.4"}
+    ]
   end
 end
