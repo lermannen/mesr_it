@@ -12,13 +12,13 @@ defmodule FeedStoreTest do
   end
 
   test "Stores the value in the agent" do
-    FeedStore.store("url", %{
+    FeedStore.store("uri", %{
       feed: "feed",
       cached_at: System.system_time(),
       time_to_live: 5000
     })
 
-    assert FeedStore.get_feed("url") == "feed"
+    assert FeedStore.get_feed("uri") == "feed"
   end
 
   test "Can store several feeds in the agent" do

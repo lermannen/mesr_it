@@ -14,6 +14,7 @@ defmodule FeedStore.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {FeedStore.Application, []},
       extra_applications: [:logger, :httpoison]
     ]
   end
