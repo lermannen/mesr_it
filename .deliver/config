@@ -25,11 +25,10 @@ pre_erlang_clean_compile() {
   __sync_remote "
     [ -f ~/.profile ] && source ~/.profile
     set -e
-    cd $BUILD_AT/apps/$APP/assets
+    cd $BUILD_AT/deps/phoenix
     npm install
     node_modules/brunch/bin/brunch b -p
-    npm run deploy
-    cd ..
-    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD deps.get
+    cd $BUILD_AT
+
     APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest # web/static -o priv/static $SILENCE"
 }
