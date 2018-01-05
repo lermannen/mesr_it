@@ -19,6 +19,7 @@ config :mesr_it, MesrItWeb.Endpoint,
   url: [host: "movieingon.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
+  version: Application.spec(:phoenix_app, :vsn),
   code_reloader: false
 
 # Do not print debug messages in production

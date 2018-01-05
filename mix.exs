@@ -18,7 +18,7 @@ defmodule MesrIt.MixProject do
     [
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:edeliver, "~> 1.4.2"},
-      {:distillery, "~> 1.4"}
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 end

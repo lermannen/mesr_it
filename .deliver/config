@@ -21,14 +21,21 @@ pre_erlang_get_and_update_deps() {
 }
 
 pre_erlang_clean_compile() {
+  status "Installing NPM dependencies"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+    cd $BUILD_AT/apps/mesr_it/assets
+    npm install
+    ./node_modules/brunch/bin/brunch b -p
+  "
+
   status "Running phoenix.digest with default directories"
   __sync_remote "
     [ -f ~/.profile ] && source ~/.profile
     set -e
-    cd $BUILD_AT/deps/phoenix
-    npm install
-    node_modules/brunch/bin/brunch b -p
-    cd $BUILD_AT
-
-    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest # web/static -o priv/static $SILENCE"
+    cd $BUILD_AT/
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD deps.get
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest
+  "
 }
